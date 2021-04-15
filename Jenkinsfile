@@ -19,7 +19,7 @@ pipeline {
                           ]],
                         branches: [ [name: '*/master'] ]
                       ])
-                sh "docker build -f Dockerfile -t twitterfeed:${scmVars.GIT_COMMIT} ." 
+                sh "sudo docker build -f Dockerfile -t twitterfeed:${scmVars.GIT_COMMIT} ." 
                 }
             }
         }
