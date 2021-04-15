@@ -26,15 +26,7 @@ pipeline {
         stage('Push image to OCIR') { 
             steps {
                 script {
-                    def scmVars = checkout([
-                        $class: 'GitSCM',
-                        doGenerateSubmoduleConfigurations: false,
-                        userRemoteConfigs: [[
-                            url: 'https://github.com/AdityaVishwekar/twitter-feed.git'
-                          ]],
-                        branches: [ [name: '*/master'] ]
-                      ])
-                sh "docker login gru.ocir.io -u ${params.REGISTRY_USERNAME} -p ${params.REGISTRY_TOKEN}"
+                sh "docker login -u ${params.REGISTRY_USERNAME} -p ${params.REGISTRY_TOKEN} gru.ocir.io"
                 sh "docker tag twitterfeed:${scmVars.GIT_COMMIT} ${params.DOCKER_REPO}:${scmVars.GIT_COMMIT}"
                 sh "docker push ${params.DOCKER_REPO}:${scmVars.GIT_COMMIT}" 
                 env.GIT_COMMIT = scmVars.GIT_COMMIT
